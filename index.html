@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Rising Flowers</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(to top, #0f2027, #203a43, #2c5364);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 🌸 Flower Container */
+        .flower {
+            position: absolute;
+            width: 20vw;       /* responsive width */
+            height: 20vw;      /* maintain square shape */
+            top: 100%;
+            transform: scale(0) rotate(0deg);
+            animation: rise 8s linear forwards;
+        }
+
+        /* 🌸 Petals */
+        .petal {
+            position: absolute;
+            width: 40%;        /* relative to flower size */
+            height: 70%;
+            background: radial-gradient(circle at 50% 30%, #ff9ecb, #ff4081);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform-origin: center bottom;
+        }
+
+        /* 🌼 Center */
+        .center {
+            position: absolute;
+            width: 30%;        /* relative to flower container */
+            height: 30%;
+            background: radial-gradient(circle, #fff176, #fbc02d);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
+            z-index: 10;
+        }
+
+        /* 🌿 Stem */
+        .stem {
+            position: absolute;
+            width: 3%;         /* relative to flower container */
+            height: 75%;
+            background: linear-gradient(to bottom, #2e7d32, #1b5e20);
+            left: 50%;
+            transform: translateX(-50%);
+            top: 25%;
+            border-radius: 50%;
+        }
+
+        /* 🍃 Leaves */
+        .leaf {
+            position: absolute;
+            width: 25%;
+            height: 10%;
+            background: linear-gradient(to right, #43a047, #1b5e20);
+            border-radius: 50%;
+        }
+
+        .leaf.left {
+            top: 60%;
+            left: -20%;
+            transform: rotate(-30deg);
+        }
+
+        .leaf.right {
+            top: 70%;
+            right: -20%;
+            transform: rotate(30deg);
+        }
+
+        /* 🌬 Rising Animation */
+        @keyframes rise {
+            0% {
+                top: 100%;
+                transform: translateX(0) scale(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateX(20px) scale(0.7) rotate(180deg);
+            }
+
+            100% {
+                top: -20%;
+                transform: translateX(-20px) scale(1) rotate(360deg);
+                opacity: 0.95;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        function createFlower() {
+            const flower = document.createElement("div");
+            flower.className = "flower";
+
+            // Random horizontal position
+            flower.style.left = Math.random() * 80 + "vw";
+
+            // Random animation duration (6–10 seconds)
+            let duration = 6 + Math.random() * 4;
+            flower.style.animationDuration = duration + "s";
+
+            // 🌿 Stem
+            const stem = document.createElement("div");
+            stem.className = "stem";
+            flower.appendChild(stem);
+
+            // 🍃 Leaves
+            const leaf1 = document.createElement("div");
+            leaf1.className = "leaf left";
+            flower.appendChild(leaf1);
+
+            const leaf2 = document.createElement("div");
+            leaf2.className = "leaf right";
+            flower.appendChild(leaf2);
+
+            // 🌸 Petals
+            for (let i = 0; i < 10; i++) {
+                let petal = document.createElement("div");
+                petal.className = "petal";
+                petal.style.transform = `translate(-50%, -100%) rotate(${i * 36}deg)`;
+                flower.appendChild(petal);
+            }
+
+            // 🌼 Center
+            const center = document.createElement("div");
+            center.className = "center";
+            flower.appendChild(center);
+
+            document.body.appendChild(flower);
+
+            // Remove flower after animation
+            setTimeout(() => {
+                flower.remove();
+            }, duration * 1000);
+        }
+
+        // Create flowers continuously
+        setInterval(createFlower, 1200);
+    </script>
+</body>
+
+</html>
